@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shuno turns customer reviews into clear sentiment insights and actionable themes.">
+  <title>Shuno — Customer Feedback Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="hdr-brand" href="#overview" aria-label="Shuno home">
+      <svg class="hdr-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9a5 5 0 0 1 10 0c0 2.5-2 3.2-3 5s-1 4-3.5 4A3.5 3.5 0 0 1 7 14.5"/><path d="M10 9a2 2 0 0 1 4 0c0 1-1 1.4-1.5 2.2"/></svg>
+      <span><span class="hdr-name">Shuno <span lang="bn">শুনো</span></span><span class="hdr-tag">Listen to your customers</span></span>
+    </a>
+    <div class="hdr-pill">Customer Feedback Intelligence</div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <p class="workspace-label">WORKSPACE</p>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview" data-nav="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></span> Dashboard</a>
+        <a class="nav-link" href="#reviews" data-nav="reviews"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/></svg></span> Reviews <span class="nav-count" id="sideReviewCount">12</span></a>
+        <a class="nav-link" href="#wordcloud" data-nav="wordcloud"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H7a4 4 0 0 1-.7-7.94A6 6 0 0 1 17.8 9.6 4.7 4.7 0 0 1 17.5 19z"/></svg></span> Word Cloud</a>
+        <a class="nav-link" href="#analytics" data-nav="analytics"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span> Analytics</a>
+        <button class="nav-link nav-button" type="button" id="settingsBtn"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span> Settings</button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-tip">
+        <div class="tip-icon">✦</div>
+        <p class="tip-title">Listen closer.</p>
+        <p class="tip-copy">Every review is an opportunity to make a better customer experience.</p>
+      </div>
+      <div class="sidebar-footer"><span class="status-dot"></span> Local workspace <span class="version">v1.0</span></div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span class="crumb-slash">/</span><strong id="crumb">Dashboard</strong></div>
+        <div class="topbar-actions">
+          <label class="search-wrap" for="search"><span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span><input id="search" type="search" placeholder="Search reviews..." aria-label="Search reviews"><kbd>Ctrl K</kbd></label>
+          <button class="notification-btn" id="bellBtn" type="button" title="Review alerts" aria-label="Review alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><i id="alertDot" hidden></i></button>
+          <button class="avatar-mini" id="addBtn" type="button" title="Add a review" aria-label="Add a review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <section class="page-heading">
+          <div>
+            <p class="eyebrow">CUSTOMER INSIGHTS</p>
+            <h1 id="pageTitle">Customer Feedback Overview</h1>
+            <p class="page-subtitle" id="pageSubtitle">Understand what your customers love — and what needs attention.</p>
+          </div>
+          <div class="heading-actions">
+            <div class="range-wrap"><span class="range-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><select id="range" aria-label="Trend chart date range"><option value="6" selected>Last 6 months</option><option value="12">Last 12 months</option><option value="0">All available data</option></select></div>
+            <label class="btn-outline" for="csvInput"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5M5 19h14"/></svg> Import CSV</label>
+            <input id="csvInput" type="file" accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values" hidden>
+            <button class="btn-primary" id="headingAddBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add review</button>
+          </div>
+        </section>
+
+        <div class="filter-bar" aria-label="Data filters">
+          <div class="range-wrap"><span class="range-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><select id="yearFilter" aria-label="Filter by year"><option value="">All dates</option></select></div>
+          <div class="range-wrap"><span class="range-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5V4.5h8l9 9-8 8z"/><circle cx="8" cy="9" r="1.2"/></svg></span><select id="productFilter" aria-label="Filter by product"><option value="">All products</option></select></div>
+        </div>
+
+        <p id="message" class="toast-message" role="status" hidden></p>
+
+        <section class="metric-grid dash-section" aria-label="Review metrics">
+          <article class="metric-card" id="metricTotal">
+            <div class="metric-top"><span class="metric-label">Total Reviews</span><span class="metric-icon icon-blue">▤</span></div>
+            <div class="metric-number" id="total">0</div>
+            <div class="metric-bottom"><span class="metric-subtitle">Reviews analyzed</span><span class="metric-trend neutral-trend"><span>↗</span> All sources</span></div>
+          </article>
+          <article class="metric-card" id="metricPositive">
+            <div class="metric-top"><span class="metric-label">Positive</span><span class="metric-icon icon-green">↗</span></div>
+            <div class="metric-number"><span id="positiveCount">0</span><span class="metric-percent" id="positivePct">0%</span></div>
+            <div class="metric-bottom"><span class="metric-subtitle">Happy customers</span><span class="sentiment-pill positive-pill">Positive</span></div>
+          </article>
+          <article class="metric-card" id="metricNeutral">
+            <div class="metric-top"><span class="metric-label">Neutral</span><span class="metric-icon icon-amber">◌</span></div>
+            <div class="metric-number"><span id="neutralCount">0</span><span class="metric-percent" id="neutralPct">0%</span></div>
+            <div class="metric-bottom"><span class="metric-subtitle">Mixed or factual</span><span class="sentiment-pill neutral-pill">Neutral</span></div>
+          </article>
+          <article class="metric-card" id="metricNegative">
+            <div class="metric-top"><span class="metric-label">Negative</span><span class="metric-icon icon-red">↘</span></div>
+            <div class="metric-number"><span id="negativeCount">0</span><span class="metric-percent" id="negativePct">0%</span></div>
+            <div class="metric-bottom"><span class="metric-subtitle">Needs attention</span><span class="sentiment-pill negative-pill">Negative</span></div>
+          </article>
+        </section>
+
+        <section class="chart-grid dash-section" id="trends">
+          <article class="panel trend-panel">
+            <div class="panel-heading">
+              <div><h2>Sentiment Trends</h2><p>How customer sentiment changes over time</p></div>
+              <button class="more-btn" type="button" title="Trend chart information" data-info="The chart shows the share of positive and negative reviews by month.">···</button>
+            </div>
+            <div class="chart-legend"><span><i class="legend-dot positive-dot"></i> Positive</span><span><i class="legend-dot negative-dot"></i> Negative</span></div>
+            <div class="trend-chart-wrap"><canvas id="trend" aria-label="Monthly positive and negative review trends"></canvas><p class="chart-empty" id="trendEmpty" hidden>Import reviews with a date column to see trends.</p></div>
+          </article>
+          <article class="panel sentiment-panel">
+            <div class="panel-heading"><div><h2>Sentiment Breakdown</h2><p>Overall review distribution</p></div><button class="more-btn" type="button" title="Sentiment chart information" data-info="Each review is labeled Positive, Neutral, or Negative using VADER sentiment analysis.">···</button></div>
+            <div class="donut-wrap"><canvas id="sentimentChart" aria-label="Sentiment distribution doughnut chart"></canvas><div class="donut-center"><strong id="donutTotal">0</strong><span>reviews</span></div></div>
+            <div class="sentiment-legend" id="sentimentLegend"></div>
+          </article>
+        </section>
+
+        <section class="insight-grid dash-section">
+          <article class="panel wordcloud-panel" id="wordcloud">
+            <div class="panel-heading">
+              <div><h2>Word Cloud</h2><p>Words customers mention most often</p></div>
+              <div class="filter-pills" id="cloudFilter" role="group" aria-label="Filter word cloud by sentiment">
+                <button class="filter-pill active" type="button" data-set="all">All</button>
+                <button class="filter-pill" type="button" data-set="positive">Positive</button>
+                <button class="filter-pill" type="button" data-set="negative">Negative</button>
+              </div>
+            </div>
+            <div class="word-cloud" id="cloud"><p class="chart-empty">Add reviews to generate your word cloud.</p></div>
+            <div class="cloud-footnote"><span class="tiny-info">i</span> Word size reflects frequency. Select a word to explore matching reviews.</div>
+          </article>
+          <article class="panel concerns-panel">
+            <div class="panel-heading"><div><h2>Top Customer Concerns</h2><p>Common themes in negative feedback</p></div><span class="heading-decoration">↗</span></div>
+            <div id="concerns" class="concern-list"><p class="chart-empty">No concerns to show yet.</p></div>
+            <div class="concern-footer"><span class="status-dot red-dot"></span> <span>Prioritize these to improve customer experience.</span></div>
+          </article>
+        </section>
+
+        <section class="panel reviews-panel dash-section" id="reviews">
+          <div class="panel-heading review-panel-heading">
+            <div><h2>Recent Reviews</h2><p>Real feedback, organized by sentiment</p></div>
+            <div class="review-tools">
+              <div class="filter-pills" id="feedFilter" role="group" aria-label="Filter recent reviews">
+                <button class="filter-pill active" type="button" data-sentiment="">All</button>
+                <button class="filter-pill" type="button" data-sentiment="positive">Positive</button>
+                <button class="filter-pill" type="button" data-sentiment="neutral">Neutral</button>
+                <button class="filter-pill" type="button" data-sentiment="negative">Negative</button>
+              </div>
+              <button class="text-action" type="button" id="viewAllBtn">View all <span>→</span></button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="review-table">
+              <thead><tr><th>CUSTOMER</th><th>REVIEW</th><th>DATE</th><th>SENTIMENT</th><th></th></tr></thead>
+              <tbody id="feed"><tr><td colspan="5" class="table-empty">Import a CSV to load reviews.</td></tr></tbody>
+            </table>
+          </div>
+          <div class="reviews-footer"><span id="reviewFooterCount">Showing 0 reviews</span><span class="data-note"><i></i> Updated from your review data</span></div>
+        </section>
+        <section class="analytics-view" id="analytics">
+          <div class="metric-grid">
+            <article class="metric-card"><div class="metric-top"><span class="metric-label">Average rating</span><span class="metric-icon icon-blue">★</span></div><div class="metric-number" id="aRating">–</div><div class="metric-bottom"><span class="metric-subtitle">Out of 5 stars</span></div></article>
+            <article class="metric-card"><div class="metric-top"><span class="metric-label">Average sentiment score</span><span class="metric-icon icon-green">◎</span></div><div class="metric-number" id="aScore">–</div><div class="metric-bottom"><span class="metric-subtitle">Scale from -1 to +1</span></div></article>
+            <article class="metric-card"><div class="metric-top"><span class="metric-label">Reviews with a rating</span><span class="metric-icon icon-amber">%</span></div><div class="metric-number" id="aRated">0%</div><div class="metric-bottom"><span class="metric-subtitle">Share of all reviews</span></div></article>
+            <article class="metric-card"><div class="metric-top"><span class="metric-label">Busiest month</span><span class="metric-icon icon-red">▥</span></div><div class="metric-number" id="aBusiest">–</div><div class="metric-bottom"><span class="metric-subtitle" id="aBusiestN">No dates yet</span></div></article>
+          </div>
+          <div class="analytics-grid">
+            <article class="panel"><div class="panel-heading"><div><h2>Sentiment by product</h2><p>Top 8 products by number of reviews</p></div></div>
+              <div class="analytics-list" id="productBars"></div><div class="chart-legend" id="productLegend"></div></article>
+            <article class="panel"><div class="panel-heading"><div><h2>Rating vs sentiment</h2><p>Average star rating for each sentiment group</p></div></div>
+              <div class="analytics-list" id="ratingBars"></div></article>
+          </div>
+          <div class="analytics-grid">
+            <article class="panel"><div class="panel-heading"><div><h2>Review volume per month</h2><p>Busiest month is highlighted</p></div></div>
+              <div class="volume-wrap"><canvas id="volumeChart" aria-label="Reviews per month"></canvas><p class="chart-empty" id="volumeEmpty" hidden>Import reviews with a date column to see volume.</p></div></article>
+            <article class="panel"><div class="panel-heading"><div><h2>Top words per sentiment</h2><p>Most repeated words in each group</p></div></div>
+              <div class="word-cols"><div><h3>Positive</h3><div id="posWords"></div></div><div><h3>Negative</h3><div id="negWords"></div></div></div></article>
+          </div>
+        </section>
+        <footer class="page-footer"><span>© 2026 Shuno</span><span>Listen to your customers.</span></footer>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="addDialog" class="app-dialog"><form method="dialog" id="addForm">
+    <div class="dialog-heading"><div><p class="eyebrow">NEW FEEDBACK</p><h2>Add a customer review</h2></div><button class="dialog-close" value="cancel" aria-label="Close dialog">×</button></div>
+    <p class="dialog-copy">Enter a review and Shuno will analyze its sentiment automatically.</p>
+    <label class="field-label" for="newReview">Review text</label><textarea id="newReview" rows="5" placeholder="e.g. Delivery was quick and the product quality was excellent..." required></textarea>
+    <div class="dialog-actions"><button value="cancel" class="btn-outline">Cancel</button><button id="saveReview" value="ok" class="btn-primary">Analyze &amp; add review</button></div>
+  </form></dialog>
+
+  <dialog id="settingsDialog" class="app-dialog"><form method="dialog">
+    <div class="dialog-heading"><div><p class="eyebrow">WORKSPACE SETTINGS</p><h2>Manage your data</h2></div><button class="dialog-close" value="cancel" aria-label="Close dialog">×</button></div>
+    <p class="dialog-copy">Your reviews are stored in a local SQLite database on this computer. You can clear the data and start again with a fresh CSV import.</p>
+    <div class="dialog-actions"><button value="cancel" class="btn-outline">Keep my data</button><button id="clearBtn" value="ok" class="btn-danger">Delete all reviews</button></div>
+  </form></dialog>
+
+  <dialog id="analyzeDialog" class="app-dialog"><form method="dialog">
+    <div class="dialog-heading"><div><p class="eyebrow">REVIEW DETAILS</p><h2>Sentiment analysis</h2></div><button class="dialog-close" aria-label="Close dialog">×</button></div>
+    <p id="analyzeMeta" class="analysis-meta"></p><blockquote id="analyzeText" class="analysis-review"></blockquote>
+    <div class="analysis-score-row"><span>Sentiment score</span><strong id="analysisScore">—</strong></div>
+    <div class="score-track"><div id="analysisScoreFill"></div></div>
+    <p class="analysis-note">Sentiment is estimated from the review text. It can be wrong for sarcasm, context-specific language, or mixed feedback.</p>
+    <div class="dialog-actions"><button class="btn-primary">Done</button></div>
+  </form></dialog>
+
+  <script src="{{ url_for('static', filename='vendor/chart.umd.js') }}"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

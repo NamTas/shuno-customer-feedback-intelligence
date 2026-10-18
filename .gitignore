@@ -1,0 +1,39 @@
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-*
+instance/
+
+# Secrets and local environment settings
+.env
+.env.*
+!.env.example
+
+# Uploaded files and raw datasets
+uploads/
+data/raw/
+*Amazon_Reviews*
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+
+# Archive files
+*.zip
