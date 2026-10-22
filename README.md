@@ -1,10 +1,8 @@
 <div align="center">
 
-  <!-- লোগো থাকলে নিচের লাইনটি আনকমেন্ট করে লোগোর লিংক দিন -->
-  <!-- <img src="docs/logo.png" alt="Shuno Logo" width="120"> -->
+  <img src="https://capsule-render.vercel.app/api?type=venom&color=10:ff9a9e,50:fecfef,100:a1c4fd&height=180&section=header&text=Shuno%20%C2%B7%20%E0%A6%B6%E0%A7%81%E0%A6%A8%E0%A7%8B&fontSize=38&fontColor=000000&fontAlignY=42&desc=Listen%20to%20your%20customers.&descSize=16&descColor=000000&descAlignY=65" width="100%" alt="Shuno Banner" />
 
-  <h1>📊 Shuno · শুনো</h1>
-  <h3><em>Listen to your customers.</em></h3>
+  <br><br>
 
   <p>
     <b>A full-stack review analytics dashboard that turns thousands of customer reviews into clear answers.</b><br>
@@ -36,7 +34,6 @@
   <img src="docs/screenshots/dashboard.png" alt="Shuno Dashboard Analytics" width="850">
 
 </div>
-<br>
 
 ## The problem
 
