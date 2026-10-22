@@ -1,21 +1,42 @@
 <div align="center">
 
-# Shuno · শুনো
+  <!-- লোগো থাকলে নিচের লাইনটি আনকমেন্ট করে লোগোর লিংক দিন -->
+  <!-- <img src="docs/logo.png" alt="Shuno Logo" width="120"> -->
 
-### Listen to your customers.
+  <h1>📊 Shuno · শুনো</h1>
+  <h3><em>Listen to your customers.</em></h3>
 
-A full-stack review analytics dashboard that turns thousands of customer reviews into clear answers: how customers feel, what they complain about, and what they praise.
+  <p>
+    <b>A full-stack review analytics dashboard that turns thousands of customer reviews into clear answers.</b><br>
+    Find out exactly <i>how customers feel</i>, <i>what they complain about</i>, and <i>what they praise</i>.
+  </p>
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-3.0-000000?logo=flask&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
-![Chart.js](https://img.shields.io/badge/Chart.js-4-FF6384?logo=chartdotjs&logoColor=white)
-[![Tests](https://github.com/NamTas/shuno-customer-feedback-intelligence/actions/workflows/tests.yml/badge.svg)](https://github.com/NamTas/shuno-customer-feedback-intelligence/actions)
-![License](https://img.shields.io/badge/License-MIT-green)
+  <p>
+    <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+    <img src="https://img.shields.io/badge/Flask-3.0-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
+    <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+    <img src="https://img.shields.io/badge/Chart.js-4-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white" alt="Chart.js">
+  </p>
+  <p>
+    <a href="https://github.com/NamTas/shuno-customer-feedback-intelligence/actions">
+      <img src="https://github.com/NamTas/shuno-customer-feedback-intelligence/actions/workflows/tests.yml/badge.svg" alt="Tests">
+    </a>
+    <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
+  </p>
 
-![Shuno dashboard](docs/screenshots/dashboard.png)
+  <p>
+    <a href="#what-it-does"><b>✨ Features</b></a> •
+    <a href="#quick-start"><b>🚀 Quick Start</b></a> •
+    <a href="#how-it-works"><b>⚙️ How it Works</b></a> •
+    <a href="#roadmap"><b>🗺️ Roadmap</b></a>
+  </p>
+
+  <br>
+
+  <img src="docs/screenshots/dashboard.png" alt="Shuno Dashboard Analytics" width="850">
 
 </div>
+<br>
 
 ## The problem
 
