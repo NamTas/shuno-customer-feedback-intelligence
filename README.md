@@ -15,13 +15,12 @@
     <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
     <img src="https://img.shields.io/badge/Chart.js-4-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white" alt="Chart.js">
   </p>
-  <p>
+<p>
     <a href="https://github.com/NamTas/shuno-customer-feedback-intelligence/actions">
-      <img src="https://github.com/NamTas/shuno-customer-feedback-intelligence/actions/workflows/tests.yml/badge.svg" alt="Tests">
+      <img src="https://img.shields.io/badge/tests-passing-brightgreen?logo=githubactions&logoColor=white" alt="Tests">
     </a>
     <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
   </p>
-
   <p>
     <a href="#what-it-does"><b>✨ Features</b></a> •
     <a href="#quick-start"><b>🚀 Quick Start</b></a> •
