@@ -1,31 +1,98 @@
-# Shuno — Customer Feedback Intelligence
+<div align="center">
 
-Shuno is a small, beginner-friendly full-stack project that turns customer reviews into a sentiment dashboard. It is designed to demonstrate Python, Flask, OOP, SQL, HTML/CSS, JavaScript, Bootstrap, data validation, CSV handling and automated tests.
+  <img src="https://capsule-render.vercel.app/api?type=venom&color=10:ff9a9e,50:fecfef,100:a1c4fd&height=180&section=header&text=Shuno%20%C2%B7%20%E0%A6%B6%E0%A7%81%E0%A6%A8%E0%A7%8B&fontSize=38&fontColor=000000&fontAlignY=42&desc=Listen%20to%20your%20customers.&descSize=16&descColor=000000&descAlignY=65" width="100%" alt="Shuno Banner" />
 
-## Features
+  <br><br>
 
-- Sentiment analysis for positive, neutral and negative reviews using VADER.
-- Metric cards and a monthly sentiment trend chart.
-- Sentiment distribution doughnut chart.
-- Frequency-based word cloud with All / Positive / Negative filters.
-- Click a cloud word to filter the reviews that contain it.
-- Top words from negative reviews to help surface customer concerns.
-- Review feed with search, sentiment filters, ratings and a details view.
-- Add a review from the dashboard and analyze it automatically.
-- Import CSV files and detect common column names such as `review`, `text`, `feedback`, `rating`, `date`, `time`, and `author`.
-- **All dates** and **All products** filters that change every number and chart.
-- **Analytics page**: average rating and sentiment score, sentiment by product, rating vs sentiment, review volume per month, and top words per sentiment.
-- SQLite persistence (older databases are upgraded automatically), basic input validation, and pytest unit tests.
+  <p>
+    <b>A full-stack review analytics dashboard that turns thousands of customer reviews into clear answers.</b><br>
+    Find out exactly <i>how customers feel</i>, <i>what they complain about</i>, and <i>what they praise</i>.
+  </p>
 
-## Requirements
+  <p>
+    <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+    <img src="https://img.shields.io/badge/Flask-3.0-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
+    <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+    <img src="https://img.shields.io/badge/Chart.js-4-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white" alt="Chart.js">
+  </p>
+  <p>
+    <a href="https://github.com/NamTas/shuno-customer-feedback-intelligence/actions">
+      <img src="https://github.com/NamTas/shuno-customer-feedback-intelligence/actions/workflows/tests.yml/badge.svg" alt="Tests">
+    </a>
+    <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
+  </p>
 
-- Python 3.10 or newer
-- Chart.js and Bootstrap are bundled in `static/vendor`, so the dashboard works offline. Only the Google Fonts need internet (system fonts are used if offline).
+  <p>
+    <a href="#what-it-does"><b>✨ Features</b></a> •
+    <a href="#quick-start"><b>🚀 Quick Start</b></a> •
+    <a href="#how-it-works"><b>⚙️ How it Works</b></a> •
+    <a href="#roadmap"><b>🗺️ Roadmap</b></a>
+  </p>
 
-## Run on Windows
+  <br>
 
-Open PowerShell in this project folder (the folder containing `app.py`) and run:
+  <img src="docs/screenshots/dashboard.png" alt="Shuno Dashboard Analytics" width="850">
 
+</div>
+
+## The problem
+
+A business can receive thousands of reviews and still miss the one problem that keeps repeating, such as late delivery or poor packaging. Nobody has time to read every review.
+
+**Shuno reads them for you.** Upload a CSV, and it shows the overall mood, the trend over time, the top complaints and the top praise, filtered by date and product.
+
+## What it does
+
+| | |
+|---|---|
+| **Dashboard** | Total reviews, sentiment split, monthly sentiment trend, sentiment breakdown, top customer concerns, interactive word cloud, searchable review feed with details |
+| **Analytics** | Average rating and sentiment score, sentiment by product, rating vs sentiment, review volume per month, top positive and negative words |
+| **Filters** | **All dates** and **All products** change every number, chart and list at once |
+| **Import** | CSV and TSV files; columns for text, rating, date, product and author are detected automatically |
+| **Add a review** | Type a review in the app and it is analyzed instantly |
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/analytics.png" alt="Analytics page"></td>
+    <td><img src="docs/screenshots/word-cloud.png" alt="Word cloud and customer concerns"></td>
+  </tr>
+</table>
+
+## How it works
+
+```mermaid
+flowchart LR
+  A[CSV / TSV upload] --> B[Column detection<br/>text, rating, date, product]
+  B --> C[VADER sentiment<br/>+ keyword extraction]
+  C --> D[(SQLite)]
+  D --> E[Flask JSON API]
+  E --> F[Dashboard and Analytics<br/>Chart.js + vanilla JS]
+```
+
+## Engineering decisions
+
+- **Clear separation of concerns.** `services.py` holds four small classes (`SentimentAnalyzer`, `KeywordExtractor`, `ReviewRepository`, `ReviewService`). `app.py` contains only routes, so the logic can be tested without a web server.
+- **Real-world CSV handling.** The importer finds columns by name, reads both comma- and tab-separated files, and understands several date formats and Unix timestamps. When several columns look like review text, it picks the one with the longest text, so a short 0/1 `feedback` flag is never mistaken for the review.
+- **Safe SQL.** All queries use bound parameters. Filters (year, product, sentiment, search) are combined in one place, `ReviewRepository._where`.
+- **Database upgrades.** Older databases get the new `product` column automatically, so existing data is not lost.
+- **Large files.** `make_sample.py` cuts a huge dataset down using reservoir sampling, which needs very little memory, and can keep only the most-reviewed products so product charts have enough data.
+- **Friendly errors.** Bad input, a missing review column or a file over 25 MB returns a clear message instead of a crash.
+- **Works offline.** Chart.js and Bootstrap are bundled in `static/vendor`; only the Google Fonts need internet, and system fonts are used as a fallback.
+- **Tested.** 13 pytest tests cover sentiment labels, keyword extraction, CSV/TSV import, column detection, filters, analytics, database upgrade and the HTTP API. They run automatically on every push with GitHub Actions.
+
+## Tech stack
+
+| Layer | Tools |
+|---|---|
+| Backend | Python, Flask |
+| Data | SQLite, SQL |
+| NLP | VADER sentiment, frequency-based keyword extraction |
+| Frontend | HTML, CSS, vanilla JavaScript, Bootstrap 5, Chart.js |
+| Quality | pytest, GitHub Actions |
+
+## Quick start
+
+**Windows (PowerShell)**
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -33,72 +100,82 @@ python -m pip install -r requirements.txt
 python app.py
 ```
 
-Then open http://127.0.0.1:5000 in your browser.
-
-If PowerShell blocks virtual environment activation, you can use the venv interpreter directly:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe app.py
+**macOS / Linux**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
 ```
 
-If the `py` command is also unavailable, install Python from https://www.python.org/downloads/ and enable **Add Python to PATH** in the installer.
+Open <http://127.0.0.1:5000>. On the first run the app loads a small **synthetic** demo dataset (`sample_reviews.csv`) so the dashboard is not empty. To start fresh, open **Settings → Delete all reviews**.
 
-## Try the dashboard
+Run the tests with `python -m pytest`.
 
-A fresh database is automatically filled with the small `sample_reviews.csv` demo dataset on first launch. Use **Import CSV** to add your own review data. When importing other files, include a review text column named `review`, `text`, `comment`, `feedback`, or `content`. A date column enables the trend chart.
+## Use your own data
 
-Example CSV columns:
+1. Click **Import CSV** (or **Import** in the sidebar) and choose a file.
+2. Shuno looks for these columns by name:
 
-```csv
-date,author,rating,review
-2026-06-10,Alex,5,Excellent quality and quick delivery
-2026-06-12,Sam,1,The delivery was late and the package was damaged
+| Data | Column names it recognizes | Required |
+|---|---|---|
+| Review text | `text`, `review`, `comment`, `feedback`, `content` | Yes |
+| Rating | `rating`, `star`, `score` | No |
+| Date | `date`, `time` (dates or Unix timestamps) | No, needed for trends |
+| Product | `product`, `category`, `department`, `class`, `variation` | No |
+| Author | `author`, `reviewer`, `profile`, `user` | No |
+
+For very large files, make a sample first:
+```bash
+python make_sample.py Reviews.csv reviews_5000.csv 5000 12
 ```
+This keeps 5,000 random reviews from the 12 most-reviewed products.
 
-The built-in demo data is intentionally small and illustrative. It is not real customer data, and sentiment analysis is an estimate rather than a guarantee of a review's true meaning.
+## Demo with real data
 
-## Run tests
+<!--
+Fill this section in after you test with a real dataset. Use only numbers you saw in your own dashboard.
 
-```powershell
-python -m pip install -r requirements.txt
-python -m pytest
-```
+Dataset: [name](link to the Kaggle page), license: ...
+Reviews analyzed: ...
+Sentiment split: ...% positive, ...% neutral, ...% negative
+Top complaints: ..., ..., ...
+One finding: ...
+-->
+
+## Limitations
+
+- Sentiment uses **VADER**, a rule-based model built for English. It can miss sarcasm and does not understand Bangla.
+- "Concerns" are the most frequent words in negative reviews. This is a simple frequency count, not topic modeling.
+- It is a single-user local app with no login. The demo data is synthetic.
+
+## Roadmap
+
+- [ ] Bangla sentiment support with a transformer model
+- [ ] Topic grouping of complaints (TF-IDF or LDA)
+- [ ] Export a summary report as PDF or CSV
+- [ ] Docker image and a public deployment
+- [ ] Optional user accounts
 
 ## Project structure
 
-```text
+```
 shuno/
-├── app.py                 # Flask routes and app startup
-├── services.py            # Sentiment analysis, keyword extraction, SQLite, CSV import
-├── sample_reviews.csv     # Safe demonstration data
-├── requirements.txt
-├── templates/
-│   └── index.html          # Dashboard layout and dialogs
-├── static/
-│   ├── app.js              # Charts, filters, API calls, and interactions
-│   └── style.css           # Responsive dashboard styling
-└── tests/
-    └── test_services.py
+├── app.py              # Flask routes and app factory
+├── services.py         # Sentiment, keywords, SQLite repository, CSV import, analytics
+├── make_sample.py      # Cut a big dataset down to a useful sample
+├── sample_reviews.csv  # Synthetic demo data
+├── templates/index.html
+├── static/             # app.js, style.css, vendor/ (Chart.js, Bootstrap)
+└── tests/test_services.py
 ```
 
-## Tech stack
+## About the author
 
-- **Backend:** Python, Flask
-- **Database:** SQLite / SQL
-- **Frontend:** HTML, CSS, vanilla JavaScript, Bootstrap 5
-- **Visualization:** Chart.js and a frequency-based CSS word cloud
-- **Sentiment:** VADER Sentiment
-- **Testing:** pytest
+Built by **Namira**, Computer Science and Engineering graduate (AUST, Dhaka), as part of my entry-level data and software engineering portfolio.
 
-## Use real Kaggle data
+[LinkedIn](https://www.linkedin.com/in/namtas) · [GitHub](https://github.com/NamTas)
 
-1. Download a review dataset from Kaggle (for example "Amazon Fine Food Reviews") and unzip it to get `Reviews.csv`.
-2. Make a smaller random sample: `python make_sample.py Reviews.csv reviews_5000.csv 5000`
-3. Click **Import CSV** and choose `reviews_5000.csv`.
+## Credits and license
 
-CSV and tab-separated (TSV) files both work. Columns are found by name: review text (`text`, `review`, `comment`, `feedback`), `rating`/`score`, `date`/`time` (dates or Unix timestamps), `product`/`category` and `author`/`profile`. Only the text column is required. Note the dataset name and link in this README and respect its license.
-
-## Credits
-
-Chart.js and Bootstrap are MIT-licensed and bundled in `static/vendor`. Sentiment uses VADER.
+Released under the [MIT License](LICENSE). Uses [VADER Sentiment](https://github.com/cjhutto/vaderSentiment), [Chart.js](https://www.chartjs.org/) and [Bootstrap](https://getbootstrap.com/), all open source. If you use a public dataset, credit its source and respect its license.
